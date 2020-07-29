@@ -14,7 +14,7 @@ bot = Bot(token=config.API_TOKEN)
 dp = Dispatcher(bot)
 
 # инициализируем соединение с БД
-db = SQL('mytelegrambd123')
+db = SQL('')
 # db.update_lastkey(12388)
 
 
