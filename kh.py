@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup as BS
 from urllib.parse import urlparse
 from sqlighter import SQL
 
-db = SQL('mytelegrambd123')
+db = SQL('')
 
 
 class KH:
