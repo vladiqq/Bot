@@ -23,6 +23,8 @@ class SQL:
         #                                   db=database,
         #                                   charset='utf8mb4',
         #                                   cursorclass=pymysql.cursors.DictCursor)
+        self.connection = pymysql.connect()
+        self.cursor = self.connection.cursor()
 
     def get_subscriptions(self, status=True):
         """Получаем всех активных подписчиков бота"""
