@@ -5,24 +5,6 @@ class SQL:
 
     def __init__(self, database):
         """Подключаемся к БД и сохраняем курсор соединения"""
-        self.connection = pymysql.connect(host='db4free.net',
-                                          user='admin322228',
-                                          password='Admin123',
-                                          db=database,
-                                          charset='utf8mb4',
-                                          cursorclass=pymysql.cursors.DictCursor)
-        # self.connection = pymysql.connect(host='sql7.freemysqlhosting.net',
-        #                                   user='sql7348921',
-        #                                   password='qdE3AQE3eI',
-        #                                   db=database,
-        #                                   charset='utf8mb4',
-        #                                   cursorclass=pymysql.cursors.DictCursor)
-        # self.connection = pymysql.connect(host='khabot.cfs0th0ftcca.us-east-2.rds.amazonaws.com',
-        #                                   user='saymeomgplz',
-        #                                   password='SamayaPizdatayaBD322228(*&',
-        #                                   db=database,
-        #                                   charset='utf8mb4',
-        #                                   cursorclass=pymysql.cursors.DictCursor)
         self.connection = pymysql.connect()
         self.cursor = self.connection.cursor()
 
