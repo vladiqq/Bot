@@ -48,6 +48,7 @@ class KH:
                                 str(html.select('.news-header > .photo')))
         ne = str(html.select('h1')[0].text)
         if ne.startswith('Расписание'):
+            print(link)
             db.add_schedule(link)
 
         info = {
@@ -60,7 +61,7 @@ class KH:
 
         return info
 
-    def show_schedule(team, link):
+    def show_old(team, link):
         """Вывод расписания"""
         r = requests.get(link)
         html = BS(r.content, 'html.parser')
@@ -69,7 +70,6 @@ class KH:
         gd1 = str(gd1).split(r'</span></p>, <p><span style="font-size: medium;">')
         location = []
         game = []
-
         for gd in gd1[1:-1]:  # Поиск команды в рассписании
             d = re.findall(str(team).upper(), str(gd))
             b = re.findall(str(team).title(), str(gd))
@@ -80,14 +80,51 @@ class KH:
                     z = re.findall(str(team).upper(), str(i))
                     y = re.findall(str(team).title(), str(i))  # поиск команды на этом поле
                     if z or y:
-                        print(i)
                         q = i[5:-2]
-                        print(q)
                         if q.startswith('t'):
                             q = q[1:]
                             q = re.sub(r'\\t', ' --> ', q)  # замена хуйни
                             game.append(q)  # список с играми
+                        else:
+                            q = re.sub(r'\\t', ' --> ', q)  # замена хуйни
+                            game.append(q)  # список с играми
+        if game.__len__() == 0:
+            info = ""
+        else:
+            info = {
+                'location': location,
+                'game': game,
+            }
+        return info
 
+    def show_new(team, link):
+        """Вывод расписания"""
+        r = requests.get(link)
+        nam = ''
+        k = 0
+        html = BS(r.content, 'html.parser')
+        cd = html.select('p')
+        gd1 = str(cd).split(r'</p>, <p>')
+        location = []
+        game = []
+        for gd in gd1[4:-2]:  # Поиск команды в рассписании
+            k += 1
+            if k % 2 != 0:
+                nam = gd
+            d = re.findall(str(team).upper(), str(gd))
+            b = re.findall(str(team).title(), str(gd))
+            if b or d:
+                gd = re.split("<br/>", str(gd))
+                location.append(nam[5:])  # список с полями
+                for i in gd:
+                    z = re.findall(str(team).upper(), str(i))
+                    y = re.findall(str(team).title(), str(i))  # поиск команды на этом поле
+                    if z or y:
+                        q = i[8:-2]
+                        if q.startswith('t'):
+                            q = q[1:]
+                            q = re.sub(r'\\t', ' --> ', q)  # замена хуйни
+                            game.append(q)  # список с играми
                         else:
                             q = re.sub(r'\\t', ' --> ', q)  # замена хуйни
                             game.append(q)  # список с играми
